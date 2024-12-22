@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese Zen Garden</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #0b1d3a, #16213e);
+      height: 100%;
+    }
+
+    .garden {
+      position: relative;
+      width: 100vw;
+      height: 107vh;
+      overflow: hidden;
+    }
+
+    .sakura {
+      position: absolute;
+      width: 30px;
+      height: 80px;
+      background: url('./download.gif'); /* Sakura tree image */
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 15;
+    }
+
+    .petal {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: pink;
+      border-radius: 50%;
+      animation: fall 10s linear infinite;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-100px) rotate(0deg);
+      }
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    .moon {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, #fff, #e8e8e8);
+      border-radius: 50%;
+      box-shadow: 0 0 50px #fff;
+    }
+
+    .torii {
+      position: absolute;
+      bottom: 0%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 250px;
+      background: url('./output-onlinegiftools.gif'); /* Torii gate image */
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 10;
+    }
+    
+
+    .lantern {
+      position: absolute;
+      width: 50px;
+      height: 100px;
+      background: #f7d26e;
+      border-radius: 5px;
+      box-shadow: 0 0 20px #f7d26e;
+      animation: flicker 2s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+
+    .kanji {
+      position: absolute;
+      bottom: 10%;
+      left: 10%;
+      color: white;
+      font-size: 3rem;
+      font-family: 'Arial', sans-serif;
+      text-shadow: 0 0 10px white;
+    }
+  </style>
+</head>
+<body>
+  <div class="garden" id="garden">
+    <div class="moon"></div>
+    <div class="torii"></div>
+    <div class="kanji">禅</div>
+  </div>
+
+  <script>
+    const garden = document.getElementById('garden');
+
+    function createSakura(x, y) {
+      const sakura = document.createElement('div');
+      sakura.className = 'sakura';
+      sakura.style.left = `${x}px`;
+      sakura.style.top = `${y}px`;
+      return sakura;
+    }
+
+    function createFallingPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.style.left = `${Math.random() * window.innerWidth}px`;
+      petal.style.animationDuration = `${5 + Math.random() * 5}s`;
+      petal.style.opacity = Math.random();
+      return petal;
+    }
+
+    function createLantern() {
+      const lantern = document.createElement('div');
+      lantern.className = 'lantern';
+      lantern.style.left = `${Math.random() * window.innerWidth}px`;
+      lantern.style.top = `${60 + Math.random() * (window.innerHeight - 200)}px`;
+      return lantern;
+    }
+
+    function addSakuraRow() {
+      const centerX = window.innerWidth / 2;
+      const spacing = 200; // Spacing between Sakura trees
+      const totalTrees = 5; // Adjust the number of trees
+
+      for (let i = 0; i < totalTrees; i++) {
+        const x = centerX + (i - Math.floor(totalTrees / 2)) * spacing;
+        const y = window.innerHeight / 2 + Math.random() * 1000 - 100; // Randomized vertical position
+        const sakura = createSakura(x, y);
+        garden.appendChild(sakura);
+      }
+    }
+
+    function addFallingPetals() {
+      const petal = createFallingPetal();
+      garden.appendChild(petal);
+      setTimeout(() => petal.remove(), 10000); // Remove petal after animation
+    }
+
+    function addLanterns() {
+      const lantern = createLantern();
+      garden.appendChild(lantern);
+    }
+
+    // Initial setup
+    addSakuraRow();
+
+    // Periodically add falling petals
+    setInterval(() => {
+      addFallingPetals();
+    }, 300);
+
+    // Randomly place lanterns in the garden
+    for (let i = 0; i < 8; i++) {
+      addLanterns();
+    }
+  </script>
+</body>
+</html>
+
+
